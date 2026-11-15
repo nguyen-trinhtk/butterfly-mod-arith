@@ -1,0 +1,5 @@
+build/
+external/
+slurm-logs/
+# results/
+__pycache__/

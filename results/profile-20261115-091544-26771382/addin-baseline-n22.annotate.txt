@@ -1,0 +1,180 @@
+ Percent |	Source code & Disassembly of profile for cycles:u (12007 samples, percent: local period)
+--------------------------------------------------------------------------------------------------------
+         :
+         :
+         :
+         :            Disassembly of section .text:
+         :
+         :            0000000000401df0 <void addinKernel<Butterfly::FieldCallsOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)>:
+         :                    template <template <class, class> class Ops, class SimdType, class Field, class Element>
+         :                    __BUTTERFLY_INLINE size_t addinFrom(const Field& F, const Element* x, Element* y, size_t k, size_t n)
+         :                    {
+         :                            const Ops<Field, SimdType> ops(F);
+         :                            typedef typename Ops<Field, SimdType>::Simd Simd; // FieldCallsOps is always Scalar
+         :                            while (k + Simd::lanes <= n) {
+    0.00 :   401df0:       test   %rcx,%rcx
+    0.00 :   401df3:       je     401f50 <void addinKernel<Butterfly::FieldCallsOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0x160>
+    0.00 :   401df9:       lea    0x0(,%rcx,8),%r10
+    0.00 :   401e01:       lea    (%rdx,%r10,1),%r8
+    0.00 :   401e05:       lea    0x20(%rdi),%rax
+    0.00 :   401e09:       cmp    %rax,%r8
+    0.00 :   401e0c:       lea    0x28(%rdi),%r8
+    0.00 :   401e10:       setbe  %al
+    0.00 :   401e13:       cmp    %r8,%rdx
+    0.00 :   401e16:       setae  %r8b
+    0.00 :   401e1a:       or     %r8d,%eax
+    0.00 :   401e1d:       lea    0x1f(%rsi),%r8
+    0.00 :   401e21:       sub    %rdx,%r8
+    0.00 :   401e24:       cmp    $0x3e,%r8
+    0.00 :   401e28:       seta   %r8b
+    0.00 :   401e2c:       test   %r8b,%al
+    0.00 :   401e2f:       je     401f60 <void addinKernel<Butterfly::FieldCallsOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0x170>
+    0.00 :   401e35:       lea    -0x1(%rcx),%rax
+    0.00 :   401e39:       cmp    $0x2,%rax
+    0.00 :   401e3d:       jbe    401f60 <void addinKernel<Butterfly::FieldCallsOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0x170>
+    0.00 :   401e43:       mov    %rcx,%r9
+    0.00 :   401e46:       shr    $0x2,%r9
+    0.00 :   401e4a:       vpbroadcastq 0x20(%rdi),%ymm2
+    0.00 :   401e50:       shl    $0x5,%r9
+    0.00 :   401e54:       xor    %r8d,%r8d
+    0.00 :   401e57:       nopw   0x0(%rax,%rax,1)
+         :
+         :                            static __BUTTERFLY_INLINE Vec set1(Element a) {
+         :                                    return a;
+         :                            }
+         :                            static __BUTTERFLY_INLINE Vec load(const Element* p) {
+         :                                    return *p;
+    1.98 :   401e60:       vmovdqu64 (%rsi,%r8,1),%ymm1
+         :                    // Addin using overflows
+         :                template<typename TElem, typename RElem,
+         :                         typename std::enable_if<! (IS_SINT(TElem)), int>::type = 0>
+         :                inline TElem& GenericAddIN(TElem& r, const TElem& a, const RElem& _p)
+         :                {
+         :                    r += a;
+   34.42 :   401e67:       vpaddq (%rdx,%r8,1),%ymm1,%ymm0
+         :                    return r = (r >= Caster<TElem>(_p) || r < a) ? r - Caster<TElem>(_p) : r;
+   34.54 :   401e6d:       vpcmpnleuq %ymm0,%ymm1,%k0
+    1.66 :   401e74:       vpcmpnltuq %ymm2,%ymm0,%k2
+    3.30 :   401e7b:       kmovb  %k0,%eax
+    3.09 :   401e7f:       kmovb  %k2,%r10d
+         :                            }
+         :                            static __BUTTERFLY_INLINE void store(Element* p, Vec v) {
+         :                                    *p = v;
+    1.94 :   401e83:       or     %r10d,%eax
+    2.57 :   401e86:       kmovb  %eax,%k1
+    5.52 :   401e8a:       vpsubq %ymm2,%ymm0,%ymm0{%k1}
+    7.69 :   401e90:       vmovdqu64 %ymm0,(%rdx,%r8,1)
+    2.26 :   401e97:       add    $0x20,%r8
+    1.02 :   401e9b:       cmp    %r9,%r8
+    0.00 :   401e9e:       jne    401e60 <void addinKernel<Butterfly::FieldCallsOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0x70>
+    0.00 :   401ea0:       mov    %rcx,%rax
+    0.00 :   401ea3:       and    $0xfffffffffffffffc,%rax
+    0.00 :   401ea7:       lea    0x1(%rax),%r11
+    0.00 :   401eab:       cmp    %rax,%rcx
+    0.00 :   401eae:       je     401f58 <void addinKernel<Butterfly::FieldCallsOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0x168>
+         :            _Z11addinKernelIN9Butterfly13FieldCallsOpsEEvRKN6Givaro7ModularImovEEPKmPmm():
+         :            __attribute__((noinline)) void axpyKernel(const Field& F, const std::vector<Element> bank[2], const Element* x, Element* y, size_t n) {
+         :                    Butterfly::axpy<Ops>(F, bank, x, y, n);
+         :            }
+         :
+         :            template <template <class, class> class Ops>
+         :            __attribute__((noinline)) void addinKernel(const Field& F, const Element* x, Element* y, size_t n) {
+    0.00 :   401eb4:       push   %rbp
+         :                                    typename Simd::Vec r = Simd::load(y + k);
+    0.00 :   401eb5:       lea    (%rdx,%rax,8),%r9
+    0.00 :   401eb9:       mov    %rsp,%rbp
+    0.00 :   401ebc:       push   %r12
+    0.00 :   401ebe:       push   %rbx
+    0.00 :   401ebf:       mov    0x20(%rdi),%rbx
+    0.00 :   401ec3:       mov    (%rsi,%rax,8),%r8
+    0.00 :   401ec7:       add    (%r9),%r8
+         :                    r += a;
+    0.00 :   401eca:       mov    %r8,%r10
+         :                    return r = (r >= Caster<TElem>(_p) || r < a) ? r - Caster<TElem>(_p) : r;
+    0.00 :   401ecd:       jb     401ed4 <void addinKernel<Butterfly::FieldCallsOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0xe4>
+    0.00 :   401ecf:       cmp    %rbx,%r8
+    0.00 :   401ed2:       jb     401eda <void addinKernel<Butterfly::FieldCallsOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0xea>
+    0.00 :   401ed4:       mov    %r8,%r10
+    0.00 :   401ed7:       sub    %rbx,%r10
+    0.00 :   401eda:       mov    %r10,(%r9)
+         :                            while (k + Simd::lanes <= n) {
+    0.00 :   401edd:       lea    0x2(%rax),%r10
+    0.00 :   401ee1:       cmp    %r10,%rcx
+    0.00 :   401ee4:       jb     401f98 <void addinKernel<Butterfly::FieldCallsOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0x1a8>
+    0.00 :   401eea:       mov    (%rsi,%r11,8),%r8
+         :                                    typename Simd::Vec r = Simd::load(y + k);
+    0.00 :   401eee:       lea    (%rdx,%r11,8),%r9
+    0.00 :   401ef2:       mov    0x20(%rdi),%rbx
+    0.00 :   401ef6:       xor    %r12d,%r12d
+    0.00 :   401ef9:       add    (%r9),%r8
+    0.00 :   401efc:       setb   %r12b
+         :                    r += a;
+    0.00 :   401f00:       mov    %r8,%r11
+         :                    return r = (r >= Caster<TElem>(_p) || r < a) ? r - Caster<TElem>(_p) : r;
+    0.00 :   401f03:       cmp    %r8,%rbx
+    0.00 :   401f06:       jbe    401f0d <void addinKernel<Butterfly::FieldCallsOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0x11d>
+    0.00 :   401f08:       test   %r12,%r12
+    0.00 :   401f0b:       je     401f13 <void addinKernel<Butterfly::FieldCallsOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0x123>
+    0.00 :   401f0d:       mov    %r8,%r11
+    0.00 :   401f10:       sub    %rbx,%r11
+         :                            while (k + Simd::lanes <= n) {
+    0.00 :   401f13:       add    $0x3,%rax
+    0.00 :   401f17:       mov    %r11,(%r9)
+    0.00 :   401f1a:       cmp    %rax,%rcx
+    0.00 :   401f1d:       jb     401f98 <void addinKernel<Butterfly::FieldCallsOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0x1a8>
+    0.00 :   401f1f:       mov    (%rsi,%r10,8),%rax
+         :                                    typename Simd::Vec r = Simd::load(y + k);
+    0.00 :   401f23:       lea    (%rdx,%r10,8),%rdx
+         :                inline TElem& GenericAddIN(TElem& r, const TElem& a, const RElem& _p)
+    0.00 :   401f27:       add    (%rdx),%rax
+         :                    return r = (r >= Caster<TElem>(_p) || r < a) ? r - Caster<TElem>(_p) : r;
+    0.00 :   401f2a:       mov    0x20(%rdi),%rsi
+         :                    r += a;
+    0.00 :   401f2e:       mov    %rax,%rcx
+         :                    return r = (r >= Caster<TElem>(_p) || r < a) ? r - Caster<TElem>(_p) : r;
+    0.00 :   401f31:       jb     401f38 <void addinKernel<Butterfly::FieldCallsOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0x148>
+    0.00 :   401f33:       cmp    %rsi,%rax
+    0.00 :   401f36:       jb     401f3e <void addinKernel<Butterfly::FieldCallsOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0x14e>
+    0.00 :   401f38:       sub    %rsi,%rax
+    0.00 :   401f3b:       mov    %rax,%rcx
+    0.00 :   401f3e:       mov    %rcx,(%rdx)
+         :                            while (k + Simd::lanes <= n) {
+    0.00 :   401f41:       vzeroupper
+         :                    Butterfly::addin<Ops>(F, x, y, n);
+         :            }
+    0.00 :   401f44:       pop    %rbx
+    0.00 :   401f45:       pop    %r12
+    0.00 :   401f47:       pop    %rbp
+    0.00 :   401f48:       retq
+    0.00 :   401f49:       nopl   0x0(%rax)
+    0.00 :   401f50:       retq
+    0.00 :   401f51:       nopl   0x0(%rax)
+    0.00 :   401f58:       vzeroupper
+    0.00 :   401f5b:       retq
+    0.00 :   401f5c:       nopl   0x0(%rax)
+    0.00 :   401f60:       xor    %eax,%eax
+    0.00 :   401f62:       nopw   0x0(%rax,%rax,1)
+         :                inline TElem& GenericAddIN(TElem& r, const TElem& a, const RElem& _p)
+    0.00 :   401f68:       mov    (%rsi,%rax,1),%rcx
+         :                    return r = (r >= Caster<TElem>(_p) || r < a) ? r - Caster<TElem>(_p) : r;
+    0.00 :   401f6c:       mov    0x20(%rdi),%r9
+    0.00 :   401f70:       add    (%rdx,%rax,1),%rcx
+         :                    r += a;
+    0.00 :   401f74:       mov    %rcx,%r8
+         :                    return r = (r >= Caster<TElem>(_p) || r < a) ? r - Caster<TElem>(_p) : r;
+    0.00 :   401f77:       jb     401f7e <void addinKernel<Butterfly::FieldCallsOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0x18e>
+    0.00 :   401f79:       cmp    %r9,%rcx
+    0.00 :   401f7c:       jb     401f84 <void addinKernel<Butterfly::FieldCallsOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0x194>
+    0.00 :   401f7e:       sub    %r9,%rcx
+    0.00 :   401f81:       mov    %rcx,%r8
+    0.00 :   401f84:       mov    %r8,(%rdx,%rax,1)
+    0.00 :   401f88:       add    $0x8,%rax
+    0.00 :   401f8c:       cmp    %r10,%rax
+    0.00 :   401f8f:       jne    401f68 <void addinKernel<Butterfly::FieldCallsOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0x178>
+    0.00 :   401f91:       retq
+    0.00 :   401f92:       nopw   0x0(%rax,%rax,1)
+    0.00 :   401f98:       vzeroupper
+    0.00 :   401f9b:       pop    %rbx
+    0.00 :   401f9c:       pop    %r12
+    0.00 :   401f9e:       pop    %rbp
+    0.00 :   401f9f:       retq

@@ -1,0 +1,104 @@
+ Percent |	Source code & Disassembly of profile for cycles:u (11997 samples, percent: local period)
+--------------------------------------------------------------------------------------------------------
+         :
+         :
+         :
+         :            Disassembly of section .text:
+         :
+         :            0000000000402070 <void addinKernel<Butterfly::FastOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)>:
+         :                            typedef typename Simd::Vec Vec;
+         :                            typedef typename WideOf<Element>::type Wide;
+         :                            static constexpr unsigned W = 8 * sizeof(Element);
+         :
+         :                            static Element prime(const Field& F) {
+         :                                    return Element(F.characteristic());
+    0.00 :   402070:       mov    0x20(%rdi),%r9
+         :            _Z17_mm512_set1_epi64x():
+         :
+         :            extern __inline __m512i
+         :            __attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+         :            _mm512_set1_epi64 (long long __A)
+         :            {
+         :              return (__m512i) __builtin_ia32_pbroadcastq512_gpr_mask (__A,
+    0.00 :   402074:       vpbroadcastq %r9,%zmm1
+         :                    template <template <class, class> class Ops, class SimdType, class Field, class Element>
+         :                    __BUTTERFLY_INLINE size_t addinFrom(const Field& F, const Element* x, Element* y, size_t k, size_t n)
+         :                    {
+         :                            const Ops<Field, SimdType> ops(F);
+         :                            typedef typename Ops<Field, SimdType>::Simd Simd; // FieldCallsOps is always Scalar
+         :                            while (k + Simd::lanes <= n) {
+    0.00 :   40207a:       cmp    $0x7,%rcx
+    0.00 :   40207e:       jbe    402108 <void addinKernel<Butterfly::FastOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0x98>
+    0.00 :   402084:       mov    $0x8,%eax
+    0.00 :   402089:       nopl   0x0(%rax)
+         :            _Z16_mm512_add_epi64Dv8_xS_():
+         :              return (__m512i) ((__v8du) __A + (__v8du) __B);
+    0.00 :   402090:       vmovdqu64 -0x40(%rdx,%rax,8),%zmm3
+   34.52 :   402098:       vpaddq -0x40(%rsi,%rax,8),%zmm3,%zmm0
+         :            _Z16_mm512_sub_epi64Dv8_xS_():
+         :              return (__m512i) ((__v8du) __A - (__v8du) __B);
+   57.67 :   4020a0:       vpsubq %zmm1,%zmm0,%zmm2
+         :            _Z16_mm512_min_epu64Dv8_xS_():
+         :
+         :            extern __inline __m512i
+         :            __attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+         :            _mm512_min_epu64 (__m512i __A, __m512i __B)
+         :            {
+         :              return (__m512i) __builtin_ia32_pminuq512_mask ((__v8di) __A,
+    1.41 :   4020a6:       vpminuq %zmm2,%zmm0,%zmm0
+         :            _Z19_mm512_storeu_si512PvDv8_x():
+         :              *(__m512i_u *)__P = __A;
+    0.97 :   4020ac:       vmovdqu64 %zmm0,-0x40(%rdx,%rax,8)
+    5.44 :   4020b4:       add    $0x8,%rax
+    0.00 :   4020b8:       cmp    %rax,%rcx
+    0.00 :   4020bb:       jae    402090 <void addinKernel<Butterfly::FastOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0x20>
+    0.00 :   4020bd:       lea    -0x8(%rcx),%rax
+    0.00 :   4020c1:       and    $0xfffffffffffffff8,%rax
+    0.00 :   4020c5:       lea    0x8(%rax),%r8
+    0.00 :   4020c9:       mov    0x20(%rdi),%r9
+    0.00 :   4020cd:       add    $0x9,%rax
+    0.00 :   4020d1:       jmp    4020f9 <void addinKernel<Butterfly::FastOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0x89>
+    0.00 :   4020d3:       nopl   0x0(%rax,%rax,1)
+         :                                    typename Simd::Vec r = Simd::load(y + k);
+    0.00 :   4020d8:       lea    (%rdx,%r8,8),%r10
+         :                            }
+         :                            static __BUTTERFLY_INLINE void store(Element* p, Vec v) {
+         :                                    *p = v;
+         :                            }
+         :                            static __BUTTERFLY_INLINE Vec add(Vec a, Vec b) {
+         :                                    return Element(a + b);
+    0.00 :   4020dc:       mov    (%r10),%rdi
+    0.00 :   4020df:       add    (%rsi,%r8,8),%rdi
+         :                            }
+         :                            static __BUTTERFLY_INLINE Vec sub(Vec a, Vec b) {
+         :                                    return Element(a - b);
+    0.00 :   4020e3:       mov    %rdi,%r8
+    0.00 :   4020e6:       sub    %r9,%r8
+         :                            // enforce cmovae
+         :                            // since gcc 9.2.0 emits cmovbe / cmova
+         :                            static __BUTTERFLY_INLINE Vec min(Vec a, Vec b)
+         :                            {
+         :            #if defined(__x86_64__) && defined(__GNUC__)
+         :                                    __asm__("cmp %1, %0\n\tcmovae %1, %0" : "+r"(a) : "r"(b) : "cc");
+    0.00 :   4020e9:       cmp    %r8,%rdi
+    0.00 :   4020ec:       cmovae %r8,%rdi
+         :                                    *p = v;
+    0.00 :   4020f0:       mov    %rdi,(%r10)
+         :                            while (k + Simd::lanes <= n) {
+    0.00 :   4020f3:       mov    %rax,%r8
+    0.00 :   4020f6:       inc    %rax
+    0.00 :   4020f9:       cmp    %rax,%rcx
+    0.00 :   4020fc:       jae    4020d8 <void addinKernel<Butterfly::FastOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0x68>
+    0.00 :   4020fe:       vzeroupper
+         :            _Z11addinKernelIN9Butterfly7FastOpsEEvRKN6Givaro7ModularImovEEPKmPmm():
+         :            }
+         :
+         :            template <template <class, class> class Ops>
+         :            __attribute__((noinline)) void addinKernel(const Field& F, const Element* x, Element* y, size_t n) {
+         :                    Butterfly::addin<Ops>(F, x, y, n);
+         :            }
+    0.00 :   402101:       retq
+    0.00 :   402102:       nopw   0x0(%rax,%rax,1)
+    0.00 :   402108:       mov    $0x1,%eax
+    0.00 :   40210d:       xor    %r8d,%r8d
+    0.00 :   402110:       jmp    4020f9 <void addinKernel<Butterfly::FastOps>(Givaro::Modular<unsigned long, unsigned __int128, void> const&, unsigned long const*, unsigned long*, unsigned long)+0x89>

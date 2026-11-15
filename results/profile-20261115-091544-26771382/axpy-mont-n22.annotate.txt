@@ -1,0 +1,297 @@
+ Percent |	Source code & Disassembly of profile for cycles:u (12001 samples, percent: local period)
+--------------------------------------------------------------------------------------------------------
+         :
+         :
+         :
+         :            Disassembly of section .text:
+         :
+         :            0000000000402470 <void Butterfly::axpy<Butterfly::MontgomeryRedcOps, Givaro::Modular<unsigned long, unsigned __int128, void> >(Givaro::Modular<unsigned long, unsigned __int128, void> const&, std::vector<Givaro::Modular<unsigned long, unsigned __int128, void>::Element, std::allocator<Givaro::Modular<unsigned long, unsigned __int128, void>::Element> > const*, Givaro::Modular<unsigned long, unsigned __int128, void>::Element const*, Givaro::Modular<unsigned long, unsigned __int128, void>::Element*, unsigned long)>:
+         :            _ZN9Butterfly4axpyINS_17MontgomeryRedcOpsEN6Givaro7ModularImovEEEEvRKT0_PKSt6vectorINS5_7ElementESaIS9_EEPKS9_PS9_m():
+         :                            return k;
+         :                    }
+         :
+         :                    // y[k] := a[k] x[k] + y[k] mod p
+         :                    template <template <class, class> class Ops, class Field>
+         :                    void axpy(const Field& F, const std::vector<typename Field::Element> bank[2],
+    0.00 :   402470:       push   %rbp
+         :
+         :                            // p^-1 mod 2^W via iterative Newton-Raphson
+         :                            static Element inverse(Element p) {
+         :                                    Element v = p;
+         :                                    for (int i = 0; i < 5; i++)
+         :                                            v = Element(v * Element(2 - p * v));
+    0.00 :   402471:       mov    $0x2,%eax
+    0.00 :   402476:       mov    %rax,%r10
+    0.00 :   402479:       mov    %rsp,%rbp
+    0.00 :   40247c:       push   %r14
+    0.00 :   40247e:       mov    %rdx,%r14
+    0.00 :   402481:       mov    %rax,%rdx
+    0.00 :   402484:       push   %r12
+    0.00 :   402486:       push   %rbx
+         :                                    return Element(F.characteristic());
+    0.00 :   402487:       mov    0x20(%rdi),%r9
+         :                              const typename Field::Element* x, typename Field::Element* y, size_t n)
+         :                    {
+         :                            typedef typename Field::Element Element;
+         :                            const Element* const words[2] = {bank[0].data(), bank[1].data()};
+    0.00 :   40248b:       mov    (%rsi),%rbx
+         :                                            v = Element(v * Element(2 - p * v));
+    0.00 :   40248e:       mov    %r9,%rsi
+    0.00 :   402491:       imul   %r9,%rsi
+    0.00 :   402495:       sub    %rsi,%r10
+    0.00 :   402498:       mov    %r10,%rsi
+    0.00 :   40249b:       imul   %r9,%rsi
+    0.00 :   40249f:       mov    %r9,%r10
+    0.00 :   4024a2:       imul   %rsi,%r10
+    0.00 :   4024a6:       sub    %r10,%rdx
+    0.00 :   4024a9:       mov    %rdx,%r10
+    0.00 :   4024ac:       imul   %rsi,%r10
+    0.00 :   4024b0:       mov    %r9,%rsi
+    0.00 :   4024b3:       mov    %rax,%rdx
+    0.00 :   4024b6:       imul   %r10,%rsi
+    0.00 :   4024ba:       sub    %rsi,%rdx
+    0.00 :   4024bd:       imul   %rdx,%r10
+    0.00 :   4024c1:       mov    %r9,%rsi
+    0.00 :   4024c4:       mov    %rax,%rdx
+    0.00 :   4024c7:       imul   %r10,%rsi
+    0.00 :   4024cb:       sub    %rsi,%rdx
+    0.00 :   4024ce:       mov    %rdx,%rsi
+    0.00 :   4024d1:       imul   %r10,%rsi
+    0.00 :   4024d5:       mov    %r9,%r10
+    0.00 :   4024d8:       imul   %rsi,%r10
+    0.00 :   4024dc:       sub    %r10,%rax
+    0.00 :   4024df:       imul   %rsi,%rax
+         :                            while (k + Simd::lanes <= n) {
+    0.00 :   4024e3:       cmp    $0x7,%r8
+    0.00 :   4024e7:       jbe    402730 <void Butterfly::axpy<Butterfly::MontgomeryRedcOps, Givaro::Modular<unsigned long, unsigned __int128, void> >(Givaro::Modular<unsigned long, unsigned __int128, void> const&, std::vector<Givaro::Modular<unsigned long, unsigned __int128, void>::Element, std::allocator<Givaro::Modular<unsigned long, unsigned __int128, void>::Element> > const*, Givaro::Modular<unsigned long, unsigned __int128, void>::Element const*, Givaro::Modular<unsigned long, unsigned __int128, void>::Element*, unsigned long)+0x2c0>
+    0.00 :   4024ed:       vpbroadcastq %r9,%zmm7
+         :            _Z17_mm512_set1_epi64x():
+         :
+         :            extern __inline __m512i
+         :            __attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+         :            _mm512_set1_epi64 (long long __A)
+         :            {
+         :              return (__m512i) __builtin_ia32_pbroadcastq512_gpr_mask (__A,
+    0.00 :   4024f3:       mov    $0xffffffff,%esi
+    0.00 :   4024f8:       vpbroadcastq %rax,%zmm6
+    0.00 :   4024fe:       vmovdqa64 %zmm7,%zmm9
+    0.00 :   402504:       mov    $0x8,%eax
+    0.00 :   402509:       vpsrlq $0x20,%zmm7,%zmm8
+    0.00 :   402510:       vpbroadcastq %rsi,%zmm5
+    0.00 :   402516:       nopw   %cs:0x0(%rax,%rax,1)
+         :            _Z18_mm512_loadu_si512PKv():
+         :
+         :            extern __inline __m512i
+         :            __attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+         :            _mm512_loadu_si512 (void const *__P)
+         :            {
+         :              return *(__m512i_u *)__P;
+    0.00 :   402520:       vmovdqu64 -0x40(%r14,%rax,8),%zmm0
+   10.67 :   402528:       vmovdqu64 -0x40(%rbx,%rax,8),%zmm1
+         :            _Z17_mm512_srli_epi64Dv8_xj():
+         :              return (__m512i) __builtin_ia32_psrlqi512_mask ((__v8di) __A, __B,
+   14.52 :   402530:       vpsrlq $0x20,%zmm0,%zmm3
+    0.33 :   402537:       vpsrlq $0x20,%zmm1,%zmm4
+         :            _Z16_mm512_mul_epu32Dv8_xS_():
+         :              return (__m512i) __builtin_ia32_pmuludq512_mask ((__v16si) __X,
+    1.22 :   40253e:       vpmuludq %zmm0,%zmm1,%zmm2
+    0.42 :   402544:       vpmuludq %zmm3,%zmm1,%zmm1
+    1.79 :   40254a:       vpmuludq %zmm0,%zmm4,%zmm0
+    0.21 :   402550:       vpmuludq %zmm3,%zmm4,%zmm13
+         :            _Z17_mm512_srli_epi64Dv8_xj():
+         :              return (__m512i) __builtin_ia32_psrlqi512_mask ((__v8di) __A, __B,
+    0.22 :   402556:       vpsrlq $0x20,%zmm2,%zmm3
+         :            _Z16_mm512_and_si512Dv8_xS_():
+         :
+         :            extern __inline __m512i
+         :            __attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+         :            _mm512_and_si512 (__m512i __A, __m512i __B)
+         :            {
+         :              return (__m512i) ((__v16su) __A & (__v16su) __B);
+    0.69 :   40255d:       vpandd %zmm1,%zmm5,%zmm4
+    1.43 :   402563:       vpandd %zmm0,%zmm5,%zmm10
+         :            _Z16_mm512_add_epi64Dv8_xS_():
+         :              return (__m512i) ((__v8du) __A + (__v8du) __B);
+    0.56 :   402569:       vpaddq %zmm10,%zmm4,%zmm4
+    0.12 :   40256f:       vpaddq %zmm3,%zmm4,%zmm4
+         :            _Z17_mm512_slli_epi64Dv8_xj():
+         :              return (__m512i) __builtin_ia32_psllqi512_mask ((__v8di) __A, __B,
+    0.76 :   402575:       vpsllq $0x20,%zmm4,%zmm10
+         :            _Z17_mm512_srli_epi64Dv8_xj():
+         :              return (__m512i) __builtin_ia32_psrlqi512_mask ((__v8di) __A, __B,
+    2.01 :   40257c:       vpsrlq $0x20,%zmm1,%zmm3
+         :            _Z16_mm512_and_si512Dv8_xS_():
+         :              return (__m512i) ((__v16su) __A & (__v16su) __B);
+    0.07 :   402583:       vpandd %zmm2,%zmm5,%zmm1
+         :            _Z15_mm512_or_si512Dv8_xS_():
+         :              return (__m512i) ((__v16su) __A | (__v16su) __B);
+    0.02 :   402589:       vpord  %zmm10,%zmm1,%zmm1
+         :            _Z18_mm512_mullo_epi64Dv8_xS_():
+         :
+         :            extern __inline __m512i
+         :            __attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+         :            _mm512_mullo_epi64 (__m512i __A, __m512i __B)
+         :            {
+         :              return (__m512i) ((__v8du) __A * (__v8du) __B);
+    0.45 :   40258f:       vpmullq %zmm1,%zmm6,%zmm1
+         :            _Z17_mm512_srli_epi64Dv8_xj():
+         :              return (__m512i) __builtin_ia32_psrlqi512_mask ((__v8di) __A, __B,
+   16.07 :   402595:       vpsrlq $0x20,%zmm4,%zmm4
+    0.00 :   40259c:       vpsrlq $0x20,%zmm0,%zmm0
+         :            _Z16_mm512_sub_epi64Dv8_xS_():
+         :              return (__m512i) ((__v8du) __A - (__v8du) __B);
+    0.20 :   4025a3:       vpaddq %zmm4,%zmm0,%zmm0
+    0.00 :   4025a9:       vpaddq %zmm3,%zmm13,%zmm3
+         :            _Z17_mm512_srli_epi64Dv8_xj():
+         :              return (__m512i) __builtin_ia32_psrlqi512_mask ((__v8di) __A, __B,
+    1.82 :   4025af:       vpsrlq $0x20,%zmm1,%zmm10
+         :            _Z16_mm512_mul_epu32Dv8_xS_():
+         :              return (__m512i) __builtin_ia32_pmuludq512_mask ((__v16si) __X,
+    4.46 :   4025b6:       vpmuludq %zmm9,%zmm1,%zmm2
+    1.93 :   4025bc:       vpmuludq %zmm9,%zmm10,%zmm11
+    2.39 :   4025c2:       vpmuludq %zmm8,%zmm1,%zmm1
+    0.00 :   4025c8:       vpmuludq %zmm8,%zmm10,%zmm10
+         :            _Z16_mm512_sub_epi64Dv8_xS_():
+         :              return (__m512i) ((__v8du) __A - (__v8du) __B);
+    1.04 :   4025ce:       vpaddq %zmm3,%zmm0,%zmm0
+         :            _Z17_mm512_srli_epi64Dv8_xj():
+         :              return (__m512i) __builtin_ia32_psrlqi512_mask ((__v8di) __A, __B,
+    0.28 :   4025d4:       vpsrlq $0x20,%zmm2,%zmm12
+         :            _Z16_mm512_and_si512Dv8_xS_():
+         :              return (__m512i) ((__v16su) __A & (__v16su) __B);
+    1.98 :   4025db:       vpandd %zmm11,%zmm5,%zmm14
+    1.18 :   4025e1:       vpandd %zmm1,%zmm5,%zmm2
+         :            _Z16_mm512_add_epi64Dv8_xS_():
+         :              return (__m512i) ((__v8du) __A + (__v8du) __B);
+    0.81 :   4025e7:       vpaddq %zmm14,%zmm2,%zmm2
+    1.13 :   4025ed:       vpaddq %zmm12,%zmm2,%zmm2
+         :            _Z17_mm512_srli_epi64Dv8_xj():
+         :              return (__m512i) __builtin_ia32_psrlqi512_mask ((__v8di) __A, __B,
+    2.33 :   4025f3:       vpsrlq $0x20,%zmm2,%zmm2
+    2.27 :   4025fa:       vpsrlq $0x20,%zmm11,%zmm11
+    0.02 :   402601:       vpsrlq $0x20,%zmm1,%zmm1
+         :            _Z16_mm512_sub_epi64Dv8_xS_():
+         :              return (__m512i) ((__v8du) __A - (__v8du) __B);
+    0.23 :   402608:       vpaddq %zmm2,%zmm11,%zmm2
+    0.22 :   40260e:       vpaddq %zmm1,%zmm10,%zmm1
+    1.24 :   402614:       vpsubq %zmm2,%zmm0,%zmm0
+    0.54 :   40261a:       vpsubq %zmm1,%zmm0,%zmm0
+         :            _Z16_mm512_add_epi64Dv8_xS_():
+         :              return (__m512i) ((__v8du) __A + (__v8du) __B);
+    0.33 :   402620:       vpaddq %zmm7,%zmm0,%zmm1
+         :            _Z16_mm512_min_epu64Dv8_xS_():
+         :
+         :            extern __inline __m512i
+         :            __attribute__ ((__gnu_inline__, __always_inline__, __artificial__))
+         :            _mm512_min_epu64 (__m512i __A, __m512i __B)
+         :            {
+         :              return (__m512i) __builtin_ia32_pminuq512_mask ((__v8di) __A,
+    1.09 :   402626:       vpminuq %zmm1,%zmm0,%zmm0
+         :            _Z16_mm512_add_epi64Dv8_xS_():
+         :              return (__m512i) ((__v8du) __A + (__v8du) __B);
+    1.93 :   40262c:       vpaddq -0x40(%rcx,%rax,8),%zmm0,%zmm0
+         :            _Z16_mm512_sub_epi64Dv8_xS_():
+         :              return (__m512i) ((__v8du) __A - (__v8du) __B);
+   15.05 :   402634:       vpsubq %zmm7,%zmm0,%zmm1
+         :            _Z16_mm512_min_epu64Dv8_xS_():
+         :              return (__m512i) __builtin_ia32_pminuq512_mask ((__v8di) __A,
+    1.51 :   40263a:       vpminuq %zmm1,%zmm0,%zmm0
+         :            _Z19_mm512_storeu_si512PvDv8_x():
+         :              *(__m512i_u *)__P = __A;
+    2.51 :   402640:       vmovdqu64 %zmm0,-0x40(%rcx,%rax,8)
+    1.92 :   402648:       add    $0x8,%rax
+    0.03 :   40264c:       cmp    %r8,%rax
+    0.00 :   40264f:       jbe    402520 <void Butterfly::axpy<Butterfly::MontgomeryRedcOps, Givaro::Modular<unsigned long, unsigned __int128, void> >(Givaro::Modular<unsigned long, unsigned __int128, void> const&, std::vector<Givaro::Modular<unsigned long, unsigned __int128, void>::Element, std::allocator<Givaro::Modular<unsigned long, unsigned __int128, void>::Element> > const*, Givaro::Modular<unsigned long, unsigned __int128, void>::Element const*, Givaro::Modular<unsigned long, unsigned __int128, void>::Element*, unsigned long)+0xb0>
+    0.00 :   402655:       lea    -0x8(%r8),%r10
+    0.00 :   402659:       and    $0xfffffffffffffff8,%r10
+    0.00 :   40265d:       mov    0x20(%rdi),%r9
+    0.00 :   402661:       lea    0x8(%r10),%rsi
+    0.00 :   402665:       add    $0x9,%r10
+    0.00 :   402669:       mov    %r9,%rdi
+    0.00 :   40266c:       imul   %r9,%rdi
+    0.00 :   402670:       mov    $0x2,%eax
+    0.00 :   402675:       mov    %rax,%rdx
+    0.00 :   402678:       sub    %rdi,%rdx
+    0.00 :   40267b:       mov    %rdx,%rdi
+    0.00 :   40267e:       imul   %r9,%rdi
+    0.00 :   402682:       mov    %rax,%rdx
+    0.00 :   402685:       mov    %rdi,%r12
+    0.00 :   402688:       mov    %r9,%rdi
+    0.00 :   40268b:       imul   %r12,%rdi
+    0.00 :   40268f:       sub    %rdi,%rdx
+    0.00 :   402692:       mov    %rdx,%rdi
+    0.00 :   402695:       imul   %r12,%rdi
+    0.00 :   402699:       mov    %rax,%r12
+    0.00 :   40269c:       mov    %rdi,%r11
+    0.00 :   40269f:       imul   %r9,%r11
+    0.00 :   4026a3:       sub    %r11,%r12
+    0.00 :   4026a6:       imul   %r12,%rdi
+    0.00 :   4026aa:       mov    %rax,%r12
+    0.00 :   4026ad:       mov    %rdi,%r11
+    0.00 :   4026b0:       imul   %r9,%r11
+    0.00 :   4026b4:       sub    %r11,%r12
+    0.00 :   4026b7:       imul   %rdi,%r12
+    0.00 :   4026bb:       mov    %r12,%rdi
+    0.00 :   4026be:       imul   %r9,%rdi
+    0.00 :   4026c2:       sub    %rdi,%rax
+    0.00 :   4026c5:       imul   %rax,%r12
+    0.00 :   4026c9:       cmp    %r10,%r8
+    0.00 :   4026cc:       jb     40271c <void Butterfly::axpy<Butterfly::MontgomeryRedcOps, Givaro::Modular<unsigned long, unsigned __int128, void> >(Givaro::Modular<unsigned long, unsigned __int128, void> const&, std::vector<Givaro::Modular<unsigned long, unsigned __int128, void>::Element, std::allocator<Givaro::Modular<unsigned long, unsigned __int128, void>::Element> > const*, Givaro::Modular<unsigned long, unsigned __int128, void>::Element const*, Givaro::Modular<unsigned long, unsigned __int128, void>::Element*, unsigned long)+0x2ac>
+    0.00 :   4026ce:       xchg   %ax,%ax
+         :                            }
+         :                            static __BUTTERFLY_INLINE Vec mulhi(Vec a, Vec b) {
+         :                                    return Element((Wide(a) * b) >> W);
+         :                            }
+         :                            static __BUTTERFLY_INLINE void mulwide(Vec& lo, Vec& hi, Vec a, Vec b) {
+         :                                    const Wide t = Wide(a) * b;
+    0.00 :   4026d0:       mov    (%r14,%rsi,8),%rax
+         :                                    typename Simd::Vec r = Simd::load(y + k);
+    0.00 :   4026d4:       lea    (%rcx,%rsi,8),%r11
+    0.00 :   4026d8:       mov    %rax,%rdx
+    0.00 :   4026db:       mulx   (%rbx,%rsi,8),%rsi,%rdi
+         :                                    return Element(a * b);
+    0.00 :   4026e1:       imul   %r12,%rsi
+         :                                    lo = Element(t);
+         :                                    hi = Element(t >> W);
+    0.00 :   4026e5:       mov    %rdi,%rax
+         :                                    return Element((Wide(a) * b) >> W);
+    0.00 :   4026e8:       mov    %rsi,%rdx
+    0.00 :   4026eb:       mulx   %r9,%rsi,%rdi
+         :                                    return Element(a - b);
+    0.00 :   4026f0:       sub    %rdi,%rax
+         :                                    return Element(a + b);
+    0.00 :   4026f3:       lea    (%rax,%r9,1),%rsi
+         :                                    __asm__("cmp %1, %0\n\tcmovae %1, %0" : "+r"(a) : "r"(b) : "cc");
+    0.00 :   4026f7:       cmp    %rsi,%rax
+    0.00 :   4026fa:       cmovae %rsi,%rax
+         :                                    return Element(a + b);
+    0.00 :   4026fe:       add    (%r11),%rax
+         :                                    return Element(a - b);
+    0.00 :   402701:       mov    %rax,%rsi
+    0.00 :   402704:       sub    %r9,%rsi
+         :                                    __asm__("cmp %1, %0\n\tcmovae %1, %0" : "+r"(a) : "r"(b) : "cc");
+    0.00 :   402707:       cmp    %rsi,%rax
+    0.00 :   40270a:       cmovae %rsi,%rax
+         :                            static __BUTTERFLY_INLINE void store(Element* p, Vec v) {
+    0.00 :   40270e:       mov    %r10,%rsi
+    0.00 :   402711:       inc    %r10
+         :                                    *p = v;
+    0.00 :   402714:       mov    %rax,(%r11)
+         :                            while (k + Simd::lanes <= n) {
+    0.00 :   402717:       cmp    %r10,%r8
+    0.00 :   40271a:       jae    4026d0 <void Butterfly::axpy<Butterfly::MontgomeryRedcOps, Givaro::Modular<unsigned long, unsigned __int128, void> >(Givaro::Modular<unsigned long, unsigned __int128, void> const&, std::vector<Givaro::Modular<unsigned long, unsigned __int128, void>::Element, std::allocator<Givaro::Modular<unsigned long, unsigned __int128, void>::Element> > const*, Givaro::Modular<unsigned long, unsigned __int128, void>::Element const*, Givaro::Modular<unsigned long, unsigned __int128, void>::Element*, unsigned long)+0x260>
+    0.00 :   40271c:       vzeroupper
+         :            _ZN9Butterfly4axpyINS_17MontgomeryRedcOpsEN6Givaro7ModularImovEEEEvRKT0_PKSt6vectorINS5_7ElementESaIS9_EEPKS9_PS9_m():
+         :                            size_t k = axpyFrom<Ops, Default<Element>>(F, words, x, y, 0, n);
+         :                            axpyFrom<Ops, Scalar<Element>>(F, words, x, y, k, n); // the last n mod lanes elements
+         :                    }
+    0.00 :   40271f:       pop    %rbx
+    0.00 :   402720:       pop    %r12
+    0.00 :   402722:       pop    %r14
+    0.00 :   402724:       pop    %rbp
+    0.00 :   402725:       retq
+    0.00 :   402726:       nopw   %cs:0x0(%rax,%rax,1)
+         :                            while (k + Simd::lanes <= n) {
+    0.00 :   402730:       mov    $0x1,%r10d
+    0.00 :   402736:       xor    %esi,%esi
+    0.00 :   402738:       jmpq   402669 <void Butterfly::axpy<Butterfly::MontgomeryRedcOps, Givaro::Modular<unsigned long, unsigned __int128, void> >(Givaro::Modular<unsigned long, unsigned __int128, void> const&, std::vector<Givaro::Modular<unsigned long, unsigned __int128, void>::Element, std::allocator<Givaro::Modular<unsigned long, unsigned __int128, void>::Element> > const*, Givaro::Modular<unsigned long, unsigned __int128, void>::Element const*, Givaro::Modular<unsigned long, unsigned __int128, void>::Element*, unsigned long)+0x1f9>

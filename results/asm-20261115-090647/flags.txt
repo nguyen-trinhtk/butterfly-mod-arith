@@ -1,0 +1,1 @@
+g++ -O3 -g -std=gnu++17 -march=native -Iinclude -I/home/nt636/butterfly-arith/external/install/include 

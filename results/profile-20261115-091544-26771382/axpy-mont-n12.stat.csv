@@ -1,0 +1,8 @@
+# started on Sun Nov 15 09:15:59 2026
+
+11215312504,,cycles:u,2001934909,66.63,,
+13363981953,,instructions:u,2502868003,83.31,1.19,insn per cycle
+2956443620,,cycle_activity.stalls_mem_any:u,2503424346,83.33,,
+532506,,cycle_activity.stalls_l3_miss:u,2503308699,83.32,,
+822370491,,l1d.replacement:u,2504396646,83.36,,
+40443,,l2_rqsts.miss:u,2504303960,83.36,,

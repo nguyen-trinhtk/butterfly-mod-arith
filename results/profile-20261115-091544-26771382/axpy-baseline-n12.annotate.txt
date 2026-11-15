@@ -1,0 +1,118 @@
+ Percent |	Source code & Disassembly of libgcc_s.so.1 for cycles:u (10882 samples, percent: local period)
+--------------------------------------------------------------------------------------------------------------
+         :
+         :
+         :
+         :          Disassembly of section .text:
+         :
+         :          00000000000061d0 <__umodti3>:
+         :          __umodti3():
+    1.33 :   61d0:       mov    %rcx,%r9
+    0.00 :   61d3:       mov    %rdx,%r8
+         :          __udivmodti4():
+    0.00 :   61d6:       mov    %rdx,%rcx
+    1.15 :   61d9:       mov    %rsi,%rdx
+    0.00 :   61dc:       test   %r9,%r9
+    0.00 :   61df:       jne    61f8 <__umodti3+0x28>
+    0.00 :   61e1:       cmp    %rsi,%r8
+    0.00 :   61e4:       jbe    6228 <__umodti3+0x58>
+    0.00 :   61e6:       mov    %rdi,%rax
+    1.06 :   61e9:       div    %r8
+   95.18 :   61ec:       mov    %rdx,%rax
+    1.27 :   61ef:       xor    %edx,%edx
+         :          __umodti3():
+    0.00 :   61f1:       retq
+    0.00 :   61f2:       nopw   0x0(%rax,%rax,1)
+    0.00 :   61f8:       mov    %rdi,%rax
+         :          __udivmodti4():
+    0.00 :   61fb:       cmp    %rsi,%r9
+    0.00 :   61fe:       ja     61f1 <__umodti3+0x21>
+         :          __umodti3():
+    0.00 :   6200:       push   %rbx
+         :          __udivmodti4():
+    0.00 :   6201:       bsr    %r9,%rbx
+    0.00 :   6205:       xor    $0x3f,%rbx
+    0.00 :   6209:       test   %ebx,%ebx
+    0.00 :   620b:       jne    6250 <__umodti3+0x80>
+    0.00 :   620d:       cmp    %rsi,%r9
+    0.00 :   6210:       jb     62e0 <__umodti3+0x110>
+    0.00 :   6216:       cmp    %rdi,%r8
+    0.00 :   6219:       jbe    62e0 <__umodti3+0x110>
+         :          __umodti3():
+    0.00 :   621f:       pop    %rbx
+    0.00 :   6220:       retq
+    0.00 :   6221:       nopl   0x0(%rax)
+         :          __udivmodti4():
+    0.00 :   6228:       test   %r8,%r8
+    0.00 :   622b:       jne    623a <__umodti3+0x6a>
+    0.00 :   622d:       mov    $0x1,%eax
+    0.00 :   6232:       xor    %edx,%edx
+    0.00 :   6234:       div    %r8
+    0.00 :   6237:       mov    %rax,%rcx
+    0.00 :   623a:       mov    %rsi,%rax
+    0.00 :   623d:       xor    %edx,%edx
+    0.00 :   623f:       div    %rcx
+    0.00 :   6242:       mov    %rdi,%rax
+    0.00 :   6245:       div    %rcx
+    0.00 :   6248:       mov    %rdx,%rax
+    0.00 :   624b:       xor    %edx,%edx
+    0.00 :   624d:       jmp    61f1 <__umodti3+0x21>
+    0.00 :   624f:       nop
+    0.00 :   6250:       movslq %ebx,%rax
+    0.00 :   6253:       mov    $0x40,%r11d
+    0.00 :   6259:       mov    %ebx,%ecx
+    0.00 :   625b:       mov    %ebx,%r10d
+    0.00 :   625e:       sub    %rax,%r11
+    0.00 :   6261:       shl    %cl,%r9
+    0.00 :   6264:       mov    %r8,%rax
+    0.00 :   6267:       mov    %r11d,%ecx
+    0.00 :   626a:       shr    %cl,%rax
+    0.00 :   626d:       mov    %ebx,%ecx
+    0.00 :   626f:       shl    %cl,%r8
+    0.00 :   6272:       mov    %r11d,%ecx
+    0.00 :   6275:       or     %rax,%r9
+    0.00 :   6278:       mov    %rdi,%rax
+    0.00 :   627b:       shr    %cl,%rdx
+    0.00 :   627e:       mov    %ebx,%ecx
+    0.00 :   6280:       shl    %cl,%rsi
+    0.00 :   6283:       mov    %r11d,%ecx
+    0.00 :   6286:       shr    %cl,%rax
+    0.00 :   6289:       mov    %ebx,%ecx
+    0.00 :   628b:       or     %rsi,%rax
+    0.00 :   628e:       shl    %cl,%rdi
+    0.00 :   6291:       div    %r9
+    0.00 :   6294:       mov    %rdx,%rsi
+    0.00 :   6297:       mul    %r8
+    0.00 :   629a:       mov    %rax,%rbx
+    0.00 :   629d:       mov    %rdx,%rcx
+    0.00 :   62a0:       cmp    %rdx,%rsi
+    0.00 :   62a3:       jb     62ac <__umodti3+0xdc>
+    0.00 :   62a5:       jne    62b8 <__umodti3+0xe8>
+    0.00 :   62a7:       cmp    %rax,%rdi
+    0.00 :   62aa:       jae    62b8 <__umodti3+0xe8>
+    0.00 :   62ac:       sub    %r8,%rax
+    0.00 :   62af:       sbb    %r9,%rdx
+    0.00 :   62b2:       mov    %rdx,%rcx
+    0.00 :   62b5:       mov    %rax,%rbx
+    0.00 :   62b8:       sub    %rbx,%rdi
+    0.00 :   62bb:       sbb    %rcx,%rsi
+    0.00 :   62be:       mov    %r11d,%ecx
+    0.00 :   62c1:       mov    %rsi,%rax
+    0.00 :   62c4:       shl    %cl,%rax
+    0.00 :   62c7:       mov    %r10d,%ecx
+    0.00 :   62ca:       shr    %cl,%rdi
+    0.00 :   62cd:       shr    %cl,%rsi
+    0.00 :   62d0:       or     %rdi,%rax
+    0.00 :   62d3:       mov    %rsi,%rdx
+         :          __umodti3():
+    0.00 :   62d6:       pop    %rbx
+    0.00 :   62d7:       retq
+    0.00 :   62d8:       nopl   0x0(%rax,%rax,1)
+         :          __udivmodti4():
+    0.00 :   62e0:       mov    %rsi,%rdx
+    0.00 :   62e3:       mov    %rdi,%rax
+    0.00 :   62e6:       sub    %r8,%rax
+    0.00 :   62e9:       sbb    %r9,%rdx
+         :          __umodti3():
+    0.00 :   62ec:       pop    %rbx
+    0.00 :   62ed:       retq

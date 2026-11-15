@@ -1,0 +1,10 @@
+20261115-091544-26771382 on node051, 2026-11-15T09:15:44-05:00, cpu 0 (numa node 0)
+kernels axpy:baseline axpy:barrett axpy:mont addin:baseline addin:fast, logns 12 16 22
+events cycles:u,instructions:u,cycle_activity.stalls_mem_any:u,cycle_activity.stalls_l3_miss:u,l1d.replacement:u,l2_rqsts.miss:u
+units: ns and counters per element: one y[k] update (axpy: y[k] += a[k] x[k], addin: y[k] += x[k]), not per switch; a switch is one axpy + one addin
+build: g++ -O3 -g -std=gnu++17 -march=native -Iinclude -I/home/nt636/butterfly-arith/external/install/include 
+Thread(s) per core:  2
+Model name:          Intel(R) Xeon(R) Platinum 8268 CPU @ 2.90GHz
+L1d cache:           32K
+L2 cache:            1024K
+L3 cache:            36608K
